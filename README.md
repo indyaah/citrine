@@ -43,7 +43,7 @@ docker-compose up
 ```sh
 mvn spring-boot:run
 ```
-4. Go to http://localhost:8080/swagger-ui.html and play around
+4. Go to [Swagger](http://localhost:8080/swagger-ui.html) and play around
 
 ### Examples
 

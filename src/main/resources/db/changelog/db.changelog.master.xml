@@ -1,0 +1,28 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.2.xsd">
+
+    <changeSet id="1" author="anuj.patel">
+        <sql>
+            <![CDATA[
+            CREATE TABLE IF NOT EXISTS materials (
+                formula VARCHAR(64),    -- Would Ideally put a FTE on this column but not needed as of now
+                band_gap REAL,                      -- If I knew more about band gaps would have put min/max constraint
+                color VARCHAR(32),                  --Technically could be postgres custom type as there could be a finite number of colors
+                metadata JSONB,                     -- Intend to use jsonb in second iteration for generating and using metadata
+                CONSTRAINT ck_formula CHECK (formula ~ '^[a-zA-Z1-9]*$')
+            )
+            ]]>
+        </sql>
+    </changeSet>
+    <changeSet id="2" author="anuj.patel">
+        <sql>
+            CREATE INDEX ON materials ((lower(formula)));
+            CREATE INDEX ON materials ((lower(color)));
+            CREATE INDEX ON materials (band_gap);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

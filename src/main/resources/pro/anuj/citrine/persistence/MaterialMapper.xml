@@ -1,0 +1,83 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pro.anuj.citrine.persistence.MaterialMapper">
+
+    <insert id="save" parameterType="pro.anuj.citrine.domain.Material">
+        INSERT INTO materials (formula, color, band_gap) VALUES (#{formula}, #{color}, #{bandGap})
+    </insert>
+    <select id="search" parameterType="pro.anuj.citrine.persistence.FormulaQuery"
+            resultType="pro.anuj.citrine.domain.Material">
+        SELECT formula, color, band_gap as bandGap
+        FROM materials
+        WHERE formula IS NOT NULL
+        <if test="compound != null and compoundOp == 'like'">
+            AND lower(formula) like #{compound}
+        </if>
+        <if test="compound != null and compoundOp == 'eq'">
+            AND lower(formula) = #{compound}
+        </if>
+        <if test="color != null and colorOp == 'like'">
+            AND lower(color) like #{color}
+        </if>
+        <if test="color != null and colorOp == 'eq'">
+            AND lower(color) = #{color}
+        </if>
+        <choose>
+            <when test="bandGapValue1 != null and bandGapValue2 != null">
+                <![CDATA[
+                AND band_gap >= #{bandGapValue1} AND band_gap <= #{bandGapValue2}
+                ]]>
+            </when>
+            <when test="bandGapValue1 != null and bandGapValue2 == null and bandGapOp == 'eq'">
+                <![CDATA[
+                AND band_gap = #{bandGapValue1}
+                ]]>
+            </when>
+            <when test="bandGapValue1 == null and bandGapValue2 != null and bandGapOp == 'eq'">
+                <![CDATA[
+                AND band_gap = #{bandGapValue2}
+                ]]>
+            </when>
+            <when test="bandGapValue1 != null and bandGapValue2 == null and bandGapOp == 'gte'">
+                <![CDATA[
+                AND band_gap >= #{bandGapValue1}
+                ]]>
+            </when>
+            <when test="bandGapValue1 == null and bandGapValue2 != null and bandGapOp == 'gte'">
+                <![CDATA[
+                AND band_gap >= #{bandGapValue2}
+                ]]>
+            </when>
+            <when test="bandGapValue1 != null and bandGapValue2 == null and bandGapOp == 'lte'">
+                <![CDATA[
+                AND band_gap <= #{bandGapValue1}
+                ]]>
+            </when>
+            <when test="bandGapValue1 == null and bandGapValue2 != null and bandGapOp == 'lte'">
+                <![CDATA[
+                AND band_gap <= #{bandGapValue2}
+                ]]>
+            </when>
+            <when test="bandGapValue1 != null and bandGapValue2 == null and bandGapOp == 'gt'">
+                <![CDATA[
+                AND band_gap > #{bandGapValue1}
+                ]]>
+            </when>
+            <when test="bandGapValue1 == null and bandGapValue2 != null and bandGapOp == 'gt'">
+                <![CDATA[
+                AND band_gap > #{bandGapValue2}
+                ]]>
+            </when>
+            <when test="bandGapValue1 != null and bandGapValue2 == null and bandGapOp == 'lt'">
+                <![CDATA[
+                AND band_gap < #{bandGapValue1}
+                ]]>
+            </when>
+            <when test="bandGapValue1 == null and bandGapValue2 != null and bandGapOp == 'lt'">
+                <![CDATA[
+                AND band_gap < #{bandGapValue2}
+                ]]>
+            </when>
+        </choose>
+    </select>
+</mapper>

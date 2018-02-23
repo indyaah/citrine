@@ -45,6 +45,46 @@ mvn spring-boot:run
 ```
 4. Go to http://localhost:8080/swagger-ui.html and play around
 
+### Examples
+
+1. Save/Create new entry 
+```bash
+curl -X POST \
+  http://localhost:8080/materials \
+  -H 'Accept: application/json' \
+  -H 'Accept-Encoding: gzip, deflate, br' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "formula": "In2Te324",
+        "color": "Black",
+        "bandGap": 1
+}' 
+```
+
+2. Find all records with band gap [0, 3]
+```bash
+curl -X GET \
+  'http://localhost:8080/materials?compound=Ga&bandGap=0,3' \
+  -H 'Accept: application/json' \
+  -H 'Accept-Encoding: gzip, deflate, br'
+```
+
+3. Find all records with `Ga` as compound
+```bash
+curl -X GET \
+  'http://localhost:8080/materials?compound=Ga' \
+  -H 'Accept: application/json' \
+  -H 'Accept-Encoding: gzip, deflate, br'
+```
+
+4. Find all with `Ga` and band gap [0, 3]
+```bash
+curl -X GET \
+  'http://localhost:8080/materials?compound=Ga&bandGap=1,3' \
+  -H 'Accept: application/json' \
+  -H 'Accept-Encoding: gzip, deflate, br' 
+```
 ### Todos
  - Write MORE Tests
 License

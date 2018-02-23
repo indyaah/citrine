@@ -47,13 +47,13 @@ public class MaterialService {
         colorOp = (colorOp == null) ? Criterion.Like.toString() : colorOp;
         compoundOp = (compoundOp == null) ? Criterion.Like.toString() : compoundOp;
 
-        if (bandGap.length == 2 && bandGap[0] != null && bandGap[1] != null) {
+        if (bandGap != null && bandGap[0] != null && bandGap[1] != null) {
             bandGapValue1 = bandGap[0];
             bandGapValue2 = bandGap[1];
             bandGapOp = null;
-        } else if (bandGap[0] != null) {
+        } else if (bandGap != null && bandGap[0] != null) {
             bandGapValue1 = bandGap[0];
-        } else if (bandGap[1] != null) {
+        } else if (bandGap != null && bandGap[1] != null) {
             bandGapValue2 = bandGap[1];
         }
 
@@ -75,7 +75,7 @@ public class MaterialService {
                 .build();
     }
 
-     String template(String value) {
+    String template(String value) {
         if (value != null)
             return MessageFormat.format("%{0}%", value);
         return null;
